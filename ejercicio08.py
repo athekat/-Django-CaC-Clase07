@@ -85,9 +85,29 @@ class Cuenta():
         else:
             self.__cantidad -= nCantidad
 
-persona_01 = Persona("Juan", 17, "35697412")
-cuenta_01 = Cuenta(persona_01, 300)
-print(cuenta_01.mostrar())
-cuenta_01.ingresar(800)
-cuenta_01.retirar(1100)
-print(cuenta_01.mostrar())
+
+class CuentaJoven(Cuenta):
+    def __init__(self, titular, cantidad=0, bonificacion=0):
+        super().__init__(titular, cantidad)
+        self.__bonificacion = bonificacion
+
+    @property
+    def bonificacion(self):
+        return self.__bonificacion
+
+    @bonificacion.setter
+    def bonificacion(self, pBonificacion):
+        self.__bonificacion = pBonificacion
+
+    def es_titular_valido(self):
+        return self.__titular.edad >= 18 and self.__titular.edad < 25
+
+    def retirar(self, pCantidad):
+        if self.es_titular_valido():
+            super().retirar(pCantidad)
+
+    def mostrar(self):
+        print("Cuenta Joven")
+        print("Titular:", self.titular)
+        print("Cantidad:", self.cantidad)
+        print(f"Bonificación: {self.bonificacion}%")
