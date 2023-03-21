@@ -41,7 +41,7 @@ class Persona():
         return self.edad >= 18
 
 class Cuenta():
-    def __init__(self, pTitular, pCantidad=0):
+    def __init__(self, pTitular = Persona(), pCantidad=0):
         if isinstance(pTitular, Persona):
             self.__titular = pTitular
         else:
@@ -50,7 +50,7 @@ class Cuenta():
 
     @property
     def titular(self):
-        return self.__titular.nombre
+        return self.__titular
     
     @titular.setter
     def titular(self, pTitular):
@@ -71,7 +71,7 @@ class Cuenta():
                 self.__titular = pCantidad
 
     def mostrar(self):
-        return(f"El titular de la cuenta es {self.titular} y su saldo es de {self.cantidad}.")
+        return(f"El titular de la cuenta es {self.titular.nombre} y su saldo es de {self.cantidad}.")
         
     def ingresar(self, nCantidad):
         if nCantidad < 0:
@@ -100,14 +100,20 @@ class CuentaJoven(Cuenta):
         self.__bonificacion = pBonificacion
 
     def es_titular_valido(self):
-        return self.__titular.edad >= 18 and self.__titular.edad < 25
+        return self.titular.es_mayor_de_edad() and self.titular.edad <= 26
 
-    def retirar(self, pCantidad):
+
+    def retirarcj(self, pCantidad):
         if self.es_titular_valido():
             super().retirar(pCantidad)
+        else:
+            print("Usuario no autorizado para retirar")
 
     def mostrar(self):
-        print("Cuenta Joven")
-        print("Titular:", self.titular)
-        print("Cantidad:", self.cantidad)
-        print(f"Bonificación: {self.bonificacion}%")
+        return f"Cuenta Joven\nTitular: {self.titular.nombre}\nCantidad: {self.cantidad}\nBonificación: {self.bonificacion}%"
+        
+persona_01 = Persona("Juan", 27, "35697412")
+cuenta_01 = CuentaJoven(persona_01, 300)
+cuenta_01.ingresar(800)
+cuenta_01.retirarcj(1100)
+print(cuenta_01.mostrar())
