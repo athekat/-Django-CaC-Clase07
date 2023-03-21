@@ -1,5 +1,5 @@
 def get_int(): #iterativa
-    while(True):
+    while True:
         try:
             numero = int(input("Ingrese un número entero: "))
             print("Numero entero ingresado con éxito.")
